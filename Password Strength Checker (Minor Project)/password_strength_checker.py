@@ -1,4 +1,33 @@
-def check_password(password: str):
+# A PROGRAM TO CHECK THE STRENGTH OF A PASSWORD
+"""
+Created on 11-11-2022
+
+by Shubhankar Sharma (https://github.com/jinarma)
+"""
+
+import copy
+
+
+
+def password_strength_numerical(password):
+	try:
+		int(password)
+	except ValueError:
+		print('Not a number only password:', password)
+		return False
+	print(10**len(password), 'calculations required')
+	return True
+
+def password_strength_only_chars(password):
+	password_hash = copy.copy(create_password_hashmap(password))
+	try:
+		if password_hash['uppercase'][0] + password_hash['lowercase'][0] == len(password):
+			print('Password only contains alphabets:', password)
+			return True
+	except:
+		return False
+
+def create_password_hashmap(password: str):
 	strength_indicators = {'special_chars':[0], 'uppercase':[0], 'lowercase':[0], 'number':[0]}
 	special_char = list(range(32, 48))+list(range(58, 65))+list(range(91, 97))+list(range(123, 127))
 	strength_indicators['special_chars'].append(special_char)
@@ -22,9 +51,10 @@ def check_password(password: str):
 			elif ord(el) in strength_indicators['number'][1]:
 				strength_indicators['number'][0] += 1
 		except:
-			pass
+			print('Something\'s up in create_password_hashmap function')
+	
 	return strength_indicators
-	pass
 
 
-print(check_password('askjfbqk243rjn!'))
+# print(create_password_hashmap('askjfbqk243rjn!'))
+password_strength_numerical('12345')
