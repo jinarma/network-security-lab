@@ -27,6 +27,20 @@ def password_strength_only_chars(password):
 	except:
 		return False
 
+def password_strength_full(password):
+	password_hash = copy.copy(create_password_hashmap(password))
+	flag = 0
+	for value in password_hash.values():
+		if value[0] != 0:
+			flag += 1
+		else:
+			pass
+	# >= 3 so it even accepts either lower or upper or both cases
+	if flag >= 3:
+		return True
+	else:
+		return False
+
 def create_password_hashmap(password: str):
 	strength_indicators = {'special_chars':[0], 'uppercase':[0], 'lowercase':[0], 'number':[0]}
 	special_char = list(range(32, 48))+list(range(58, 65))+list(range(91, 97))+list(range(123, 127))
@@ -40,7 +54,6 @@ def create_password_hashmap(password: str):
 
 	# print(special_char)
 	for el in password:
-		print(ord(el))
 		try:
 			if ord(el) in strength_indicators['special_chars'][1]:
 				strength_indicators['special_chars'][0] += 1
@@ -58,3 +71,4 @@ def create_password_hashmap(password: str):
 
 # print(create_password_hashmap('askjfbqk243rjn!'))
 password_strength_numerical('12345')
+password_strength_full('abce@123')
