@@ -5,54 +5,37 @@ Created on 11-11-2022
 by Shubhankar Sharma (https://github.com/jinarma)
 """
 
-import copy
 
 
+def password_check_full(password):
 
-def password_strength_numerical(password):
-	try:
-		int(password)
-	except ValueError:
-		print('Not a number only password:', password)
-		return False
-	print(10**len(password), 'calculations required')
-	return True
+	ttypes = 0
+	calculations = 0
 
-def password_strength_only_chars(password):
-	password_hash = copy.copy(create_password_hashmap(password))
-	try:
-		if password_hash['uppercase'][0] + password_hash['lowercase'][0] == len(password):
-			print('Password only contains alphabets:', password)
-			return True
-	except:
-		return False
+	password_hash = create_password_hashmap(password)
+	for key in password_hash.keys():
+		if password_hash[key][0] > 0:
+			ttypes += len(password_hash[key][1])
+	calculations = ttypes**len(password)
+	if calculations < 1000:
+		print(f'Maximum {calculations} calculations needed')
+	elif calculations >= 10**3 and calculations < 10**6:
+		print(f'Maximum {calculations/10**3}K calculations needed')
+	elif calculations >= 10**6 and calculations < 10**9:
+		print(f'Maximum {calculations/10**6}M calculations needed')
+	elif calculations >= 10**9:
+		print(f'Maximum {calculations/10**9}B calculations needed')
+	return calculations
+	
 
-def password_strength_full(password):
-	password_hash = copy.copy(create_password_hashmap(password))
-	flag = 0
-	for value in password_hash.values():
-		if value[0] != 0:
-			flag += 1
-		else:
-			pass
-	# >= 3 so it even accepts either lower or upper or both cases
-	if flag >= 3:
-		return True
-	else:
-		return False
+def create_password_hashmap(password):
+	strength_indicators = {
+		'special_chars': [0, list(range(32, 48))+list(range(58, 65))+list(range(91, 97))+list(range(123, 127))],
+		'uppercase': [0, list(range(65, 91))],
+		'lowercase':[0, list(range(97, 123))],
+		'number':[0, list(range(48, 58))]
+		}
 
-def create_password_hashmap(password: str):
-	strength_indicators = {'special_chars':[0], 'uppercase':[0], 'lowercase':[0], 'number':[0]}
-	special_char = list(range(32, 48))+list(range(58, 65))+list(range(91, 97))+list(range(123, 127))
-	strength_indicators['special_chars'].append(special_char)
-	uppercase = list(range(65, 91))
-	strength_indicators['uppercase'].append(uppercase)
-	lowercase = list(range(97, 123))
-	strength_indicators['lowercase'].append(lowercase)
-	number = list(range(48, 59))
-	strength_indicators['number'].append(number)
-
-	# print(special_char)
 	for el in password:
 		try:
 			if ord(el) in strength_indicators['special_chars'][1]:
@@ -69,6 +52,6 @@ def create_password_hashmap(password: str):
 	return strength_indicators
 
 
-# print(create_password_hashmap('askjfbqk243rjn!'))
-password_strength_numerical('12345')
-password_strength_full('abce@123')
+if __name__ == '__main__':
+	input_string = input('Enter your password: ')
+
