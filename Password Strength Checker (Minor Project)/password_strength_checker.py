@@ -6,6 +6,9 @@ by Shubhankar Sharma (https://github.com/jinarma)
 
 Contributors:
 	Ashwath Mahajan
+	Ananya Sharma
+	Fazilet Beg
+	Suvrat Sharma
 """
 
 
@@ -38,7 +41,8 @@ def create_password_hashmap(password):
 		'lowercase':[0, list(range(97, 123))],
 		'number':[0, list(range(48, 58))]
 		}
-
+	print(strength_indicators['lowercase'][1])
+	print(len(strength_indicators['lowercase'][1]))
 	for el in password:
 		try:
 			if ord(el) in strength_indicators['special_chars'][1]:
@@ -57,4 +61,5 @@ def create_password_hashmap(password):
 
 if __name__ == '__main__':
 	input_string = input('Enter your password: ')
+	password_check_full(input_string)
 

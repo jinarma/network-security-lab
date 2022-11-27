@@ -1,3 +1,15 @@
+/* 
+Contributers:
+	Shubhankar Sharma
+	Ashwath Mahajan
+	Ananya Sharma
+	Fazilat Mob Beg
+ */
+
+
+
+
+
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
